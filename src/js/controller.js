@@ -2,14 +2,15 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
-import bookmarksView from './views/bookmarksView.js';
 
 import paginationView from './views/paginationView.js';
+import bookmarksView from './views/bookmarksView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { addLocale } from 'core-js';
 import resultsView from './views/resultsView.js';
+import addRecipeView from './views/addRecipeView.js';
 // if (module.hot) {
 //   module.hot.accept();
 // }
@@ -23,7 +24,9 @@ const controlRecipes = async function () {
     //0) Update results view to mark selected searc result
     resultsView.update(model.getSearchResultsPage());
     // 1 updating bookmarks view
+
     bookmarksView.update(model.state.bookmarks);
+
     // 2) loading recipe
 
     await model.loadRecipe(id);
@@ -87,6 +90,12 @@ const controlAddBookmark = function () {
 const controlBookmakrs = function () {
   bookmarksView.render(model.state.bookmarks);
 };
+
+const controlAddRecipe = function (newRecipe) {
+  console.log(newRecipe);
+
+  //Upload the new recipe data
+};
 //publisher suscriber pattern
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmakrs);
@@ -95,6 +104,7 @@ const init = function () {
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 
 init();
